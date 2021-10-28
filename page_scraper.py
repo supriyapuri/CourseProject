@@ -9,6 +9,7 @@ with open("data/movie_urls.txt") as f:
 pages = []
 
 #Iterate through each url
+title_content = []
 for i in url:
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -16,8 +17,17 @@ for i in url:
     content = ""
 
     #Title
+
     title = soup.find('h1', attrs={'data-qa': 'score-panel-movie-title'})
     content = content + title.string.strip() + " "
+    title_content.append(content)
+
+
+
+
+
+
+
     
     #Where to watch
     affiliate = soup.find_all("a", "affiliate__link")

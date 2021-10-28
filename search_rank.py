@@ -3,6 +3,9 @@ import sys
 import time
 import metapy
 import pytoml
+from page_scraper import title_content
+
+
 
 
 def load_ranker(cfg_file):
@@ -12,7 +15,7 @@ def load_ranker(cfg_file):
     configuration file used to load the index.
     """
 
-    return metapy.index.OkapiBM25(1.9, .75)
+    return metapy.index.OkapiBM25(1.5, .75)
 
 
 if __name__ == '__main__':
@@ -48,6 +51,13 @@ if __name__ == '__main__':
         for query_num, line in enumerate(query_file):
             query.content(line.strip())
             results = ranker.score(idx, query, top_k)
-            print("************")
+            print("printing query, titles and scores")
             print(results)
+            print("--------------------------")
+            print("************")
+            for i in range(len(results)):
+                print("Query:", line, "\n")
+                print("Title:", (title_content[(results[i])[0]]))
+                print("\nRanker score: ", (results[i])[1], "\n")
             print("*************")
+
