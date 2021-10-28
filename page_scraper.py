@@ -12,9 +12,13 @@ pages = []
 for i in url:
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
-
+    
     content = ""
 
+    #Title
+    title = soup.find('h1', attrs={'data-qa': 'score-panel-movie-title'})
+    content = content + title.string.strip() + " "
+    
     #Where to watch
     affiliate = soup.find_all("a", "affiliate__link")
     for data in affiliate:
