@@ -27,6 +27,7 @@ for i in url:
     attributes = soup.find_all('div', attrs={'data-qa': 'movie-info-item-value'})
 
     rating = attributes[0].string.strip()
+    rating = re.sub(r"\s+", " ", rating) #remove tabs and line breaks
     content = content + rating + " "
     genre = attributes[1].string.strip()
     genre = re.sub(r"\s+", " ", genre) #remove tabs and line breaks
