@@ -13,6 +13,6 @@ ngram = 1
 filter = "default-unigram-chain"
 
 [query-runner]
-query-path = "movies_sample_queries.txt"
+query-path = "data/movies_sample_queries.txt"
 query-id-start = 1
 
