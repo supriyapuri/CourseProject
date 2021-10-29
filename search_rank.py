@@ -2,7 +2,7 @@ import sys
 import metapy
 import pytoml
 from scipy.stats import rankdata
-# from page_scraper import title_content
+#from page_scraper import title_content
 
 
 def load_ranker(cfg_file):
@@ -48,22 +48,12 @@ if __name__ == '__main__':
 
             results = ranker.score(idx, query, top_k)
 
-
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
-                doc_num.append((results[i])[0])
+                doc_num.append((results[i])[0]+1)
             rank = list(rankdata(rank_score))
 
+            print("Query, Document, Rank")
+            for j in range(len(doc_num)):
+                 print((query_num+1), doc_num[j], rank[j])
 
-            print(query_num)
-            print("-------------")
-            #print(len(rank_score))
-            print(doc_num)
-            print("-------------")
-            print(rank)
-            print("********")
-
-
-            # for i in range(len(results)):
-            #     print("Title:", (title_content[(results[i])[0]]))
-            #     print("\nRanker score: ", (results[i])[1], "\n")
