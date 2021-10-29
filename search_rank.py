@@ -1,12 +1,8 @@
 
 import sys
-import time
 import metapy
 import pytoml
 from page_scraper import title_content
-
-
-
 
 def load_ranker(cfg_file):
     """
@@ -37,14 +33,10 @@ if __name__ == '__main__':
         print("query-runner table needed in {}".format(cfg))
         sys.exit(1)
 
-    start_time = time.time()
+
     top_k = 10
     query_path = query_cfg.get('query-path', 'queries.txt')
-    query_start = query_cfg.get('query-id-start', 0)
-
     query = metapy.index.Document()
-    ndcg = 0.0
-    num_queries = 0
 
     print('Running queries')
     with open(query_path) as query_file:
@@ -52,11 +44,11 @@ if __name__ == '__main__':
             query.content(line.strip())
             results = ranker.score(idx, query, top_k)
             print("printing query, titles and scores")
+            print("Query:", line, "\n")
             print(results)
             print("--------------------------")
             print("************")
             for i in range(len(results)):
-                print("Query:", line, "\n")
                 print("Title:", (title_content[(results[i])[0]]))
                 print("\nRanker score: ", (results[i])[1], "\n")
             print("*************")
