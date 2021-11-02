@@ -17,12 +17,7 @@ def load_ranker(cfg_file):
     return metapy.index.OkapiBM25(1.5, 5.0)
 
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: {} config.toml".format(sys.argv[0]))
-        sys.exit(1)
-
-    cfg = sys.argv[1]
+def run(cfg):
     print('Building or loading index...')
     idx = metapy.index.make_inverted_index(cfg)
     print(idx)
@@ -41,6 +36,7 @@ if __name__ == '__main__':
     query = metapy.index.Document()
 
     print('Running queries')
+    file_writer_list = []
     with open(query_path) as query_file:
 
         for query_num, line in enumerate(query_file):
@@ -50,12 +46,31 @@ if __name__ == '__main__':
 
             results = ranker.score(idx, query, top_k)
 
-
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
 
-            #print("Query, Document, Rank")
+            print("Query, Document, Rank")
             for j in range(len(doc_num)):
-                print((query_num + 1), doc_num[j], rank[j])
+                line = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
+                print(line)
+
+                file_writer_list.append(line)
+
+            write_lst(file_writer_list, 'data/rank_result.txt')
+
+
+def write_lst(lst, file_):
+    with open(file_, 'w') as f:
+        for l in lst:
+            f.write(l)
+            f.write('\n')
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: {} config.toml".format(sys.argv[0]))
+        sys.exit(1)
+    cfg = sys.argv[1]
+    run(cfg)
