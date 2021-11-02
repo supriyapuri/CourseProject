@@ -60,5 +60,5 @@ def write_lst(lst,file_):
             f.write(l)
             f.write('\n')
 
-output = 'data/pages.txt'
+output = 'data/data.dat'
 write_lst(pages,output)

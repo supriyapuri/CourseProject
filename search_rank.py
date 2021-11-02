@@ -2,7 +2,9 @@ import sys
 import metapy
 import pytoml
 from scipy.stats import rankdata
-#from page_scraper import title_content
+
+
+# from page_scraper import title_content
 
 
 def load_ranker(cfg_file):
@@ -12,7 +14,7 @@ def load_ranker(cfg_file):
     configuration file used to load the index.
     """
 
-    return metapy.index.OkapiBM25(1.5, .75)
+    return metapy.index.OkapiBM25(1.5, 5.0)
 
 
 if __name__ == '__main__':
@@ -34,7 +36,7 @@ if __name__ == '__main__':
         print("query-runner table needed in {}".format(cfg))
         sys.exit(1)
 
-    top_k = 50
+    top_k = 10
     query_path = query_cfg.get('query-path', 'queries.txt')
     query = metapy.index.Document()
 
@@ -48,12 +50,12 @@ if __name__ == '__main__':
 
             results = ranker.score(idx, query, top_k)
 
+
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
-                doc_num.append((results[i])[0]+1)
+                doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
 
-            print("Query, Document, Rank")
+            #print("Query, Document, Rank")
             for j in range(len(doc_num)):
-                 print((query_num+1), doc_num[j], rank[j])
-
+                print((query_num + 1), doc_num[j], rank[j])
