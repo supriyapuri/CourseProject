@@ -1,10 +1,34 @@
 import sys
+import time
 import metapy
 import pytoml
+import math
 from scipy.stats import rankdata
 
+# class InL2Ranker(metapy.index.RankingFunction):
+#     """
+#     Create a new ranking function in Python that can be used in MeTA.
+#     """
 
-# from page_scraper import title_content
+    # def __init__(self, some_param=1.0):
+    #     self.param = some_param
+    #
+    #     # You *must* call the base class constructor here!
+    #     super(InL2Ranker, self).__init__()
+    #
+    # def score_one(self, sd):
+    #     """
+    #     You need to override this function to return a score for a single term.
+    #     For fields available in the score_data sd object,
+    #     @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
+    #     """
+    #
+    #     tfn = sd.doc_term_count * math.log((1.0 + self.param * sd.avg_dl /
+    #                                         sd.doc_size), 2)
+    #
+    #     score = sd.query_term_weight * (tfn / (tfn + self.param)) * math.log(
+    #         ((sd.num_docs + 1.0) / (sd.corpus_term_count + 0.5)), 2)
+    #     return score
 
 
 def load_ranker(cfg_file):
@@ -13,8 +37,9 @@ def load_ranker(cfg_file):
     The parameter to this function, cfg_file, is the path to a
     configuration file used to load the index.
     """
-
-    return metapy.index.OkapiBM25(1.5, 5.0)
+    # return InL2Ranker(some_param= 3.5)
+    return metapy.index.OkapiBM25(1.5, 5)
+    # return metapy.index.JelinekMercer(5.0)
 
 
 def run(cfg):
@@ -22,6 +47,7 @@ def run(cfg):
     idx = metapy.index.make_inverted_index(cfg)
     print(idx)
     ranker = load_ranker(cfg)
+    ev = metapy.index.IREval(cfg)
 
     with open(cfg, 'r') as fin:
         cfg_d = pytoml.load(fin)
@@ -31,8 +57,10 @@ def run(cfg):
         print("query-runner table needed in {}".format(cfg))
         sys.exit(1)
 
+    start_time = time.time()
     top_k = 10
     query_path = query_cfg.get('query-path', 'queries.txt')
+    query_start = query_cfg.get('query-id-start', 0)
     query = metapy.index.Document()
 
     print('Running queries')
@@ -45,7 +73,7 @@ def run(cfg):
             doc_num = []
 
             results = ranker.score(idx, query, top_k)
-
+            # ranking from highest rank to lowest
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
                 doc_num.append((results[i])[0] + 1)
@@ -54,11 +82,15 @@ def run(cfg):
             print("Query, Document, Rank")
             for j in range(len(doc_num)):
                 line = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
-                print(line)
-
                 file_writer_list.append(line)
 
             write_lst(file_writer_list, 'data/rank_result.txt')
+
+            #avg precision
+            avg_p = ev.avg_p(results, query_start + query_num, top_k)
+            print("Query {} average precision: {}".format(query_num + 1, avg_p))
+        print("Mean average precision: {}".format(ev.map()))
+        print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
 
 
 def write_lst(lst, file_):
