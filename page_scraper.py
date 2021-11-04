@@ -21,13 +21,6 @@ for i in url:
     title = soup.find('h1', attrs={'data-qa': 'score-panel-movie-title'})
     content = content + title.string.strip() + " "
     title_content.append(content)
-
-
-
-
-
-
-
     
     #Where to watch
     affiliate = soup.find_all("a", "affiliate__link")
@@ -51,6 +44,10 @@ for i in url:
     cast = soup.find_all("span", "characters subtle smaller")
     for data in cast:
         content = content + data["title"] + " "
+
+    reviews = soup.find_all("critic-review-bubble")
+    for rev in reviews:
+        content = content + rev['reviewquote'] + " "
 
     pages.append(content.strip())
 
