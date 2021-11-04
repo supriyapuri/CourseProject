@@ -5,30 +5,32 @@ import pytoml
 import math
 from scipy.stats import rankdata
 
+# custom score class
+
 # class InL2Ranker(metapy.index.RankingFunction):
 #     """
 #     Create a new ranking function in Python that can be used in MeTA.
 #     """
-
-    # def __init__(self, some_param=1.0):
-    #     self.param = some_param
-    #
-    #     # You *must* call the base class constructor here!
-    #     super(InL2Ranker, self).__init__()
-    #
-    # def score_one(self, sd):
-    #     """
-    #     You need to override this function to return a score for a single term.
-    #     For fields available in the score_data sd object,
-    #     @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
-    #     """
-    #
-    #     tfn = sd.doc_term_count * math.log((1.0 + self.param * sd.avg_dl /
-    #                                         sd.doc_size), 2)
-    #
-    #     score = sd.query_term_weight * (tfn / (tfn + self.param)) * math.log(
-    #         ((sd.num_docs + 1.0) / (sd.corpus_term_count + 0.5)), 2)
-    #     return score
+#
+#     def __init__(self, some_param=1.0):
+#         self.param = some_param
+#
+#         # You *must* call the base class constructor here!
+#         super(InL2Ranker, self).__init__()
+#
+#     def score_one(self, sd):
+#         """
+#         You need to override this function to return a score for a single term.
+#         For fields available in the score_data sd object,
+#         @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
+#         """
+#
+#         tfn = sd.doc_term_count * math.log((1.0 + self.param * sd.avg_dl /
+#                                             sd.doc_size), 2)
+#
+#         score = sd.query_term_weight * (tfn / (tfn + self.param)) * math.log(
+#             ((sd.num_docs + 1.0) / (sd.corpus_term_count + 0.5)), 2)
+#         return score
 
 
 def load_ranker(cfg_file):
@@ -37,7 +39,7 @@ def load_ranker(cfg_file):
     The parameter to this function, cfg_file, is the path to a
     configuration file used to load the index.
     """
-    # return InL2Ranker(some_param= 3.5)
+    # return InL2Ranker(some_param= 1.0)
     return metapy.index.OkapiBM25(1.5, 5)
     # return metapy.index.JelinekMercer(5.0)
 
@@ -58,13 +60,14 @@ def run(cfg):
         sys.exit(1)
 
     start_time = time.time()
-    top_k = 10
+    top_k = 10 # maximum documents relevant to query
     query_path = query_cfg.get('query-path', 'queries.txt')
     query_start = query_cfg.get('query-id-start', 0)
     query = metapy.index.Document()
 
     print('Running queries')
-    file_writer_list = []
+    rank_list = []
+    avg_p_list = []
     with open(query_path) as query_file:
 
         for query_num, line in enumerate(query_file):
@@ -79,16 +82,19 @@ def run(cfg):
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
 
-            print("Query, Document, Rank")
             for j in range(len(doc_num)):
                 line = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
-                file_writer_list.append(line)
+                rank_list.append(line)
 
-            write_lst(file_writer_list, 'data/rank_result.txt')
+            write_lst(rank_list, 'data/rank_result.txt')
 
             #avg precision
             avg_p = ev.avg_p(results, query_start + query_num, top_k)
             print("Query {} average precision: {}".format(query_num + 1, avg_p))
+            avg_p_list.append(avg_p)
+
+            write_lst(avg_p_list, 'data/avg_p.txt')
+
         print("Mean average precision: {}".format(ev.map()))
         print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
 
@@ -96,7 +102,7 @@ def run(cfg):
 def write_lst(lst, file_):
     with open(file_, 'w') as f:
         for l in lst:
-            f.write(l)
+            f.write(str(l))
             f.write('\n')
 
 
