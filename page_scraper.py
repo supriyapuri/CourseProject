@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 #Open txt file with urls
 with open("data/movie_urls.txt") as f:
     url = f.readlines()
-
+    # print(type(url))
+    # print(url[0])
 pages = []
 
 #Iterate through each url

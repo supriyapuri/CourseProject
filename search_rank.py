@@ -3,6 +3,8 @@ import time
 import metapy
 import pytoml
 import math
+from page_scraper import title_content
+from page_scraper import url
 from scipy.stats import rankdata
 
 # custom score class
@@ -76,11 +78,15 @@ def run(cfg):
             doc_num = []
 
             results = ranker.score(idx, query, top_k)
+
             # ranking from highest rank to lowest
+            print("Query: ", query_num + 1, " ",  line)
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
+                print("{} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]])))
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
+
 
             for j in range(len(doc_num)):
                 line = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
@@ -90,7 +96,7 @@ def run(cfg):
 
             #avg precision
             avg_p = ev.avg_p(results, query_start + query_num, top_k)
-            print("Query {} average precision: {}".format(query_num + 1, avg_p))
+            #print("Query {} average precision: {}".format(query_num + 1, avg_p))
             avg_p_list.append(avg_p)
 
             write_lst(avg_p_list, 'data/avg_p.txt')
