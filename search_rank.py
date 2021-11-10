@@ -41,7 +41,7 @@ def load_ranker(cfg_file):
     The parameter to this function, cfg_file, is the path to a
     configuration file used to load the index.
     """
-    # return InL2Ranker(some_param= 1.0)
+    #return InL2Ranker(some_param= 5.0)
     return metapy.index.OkapiBM25(1.5, 5)
     # return metapy.index.JelinekMercer(5.0)
 
