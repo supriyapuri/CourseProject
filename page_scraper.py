@@ -11,7 +11,11 @@ pages = []
 #Iterate through each url
 title_content = []
 synopsis_content = []
+counter = 0
 for i in url:
+    counter += 1
+    if counter == 4:
+        break
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
     

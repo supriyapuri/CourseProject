@@ -112,11 +112,21 @@ def write_lst(lst, file_):
 
 
 
-def process_query(query):
+def process_query(query_string):
+    query = metapy.index.Document()
+    query.content(query_string)
     top_k = 10  # maximum documents relevant to query
+    cfg = 'config.toml'
+    print('creating idx')
     idx = metapy.index.make_inverted_index(cfg)
+    print('created idx.. now loading ranker')
+    print(idx)
     ranker = load_ranker(cfg)
+    print('loaded_ranker. now scoring...')
+    print(ranker)
     results = ranker.score(idx, query, top_k)
+    print('results received from  ranker.score.. now iterating')
+    print(results)
     query_result = []
     for i in range(len(results)):
         query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
