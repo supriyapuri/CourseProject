@@ -112,6 +112,11 @@ def write_lst(lst, file_):
             f.write('\n')
 
 
+def fetch_results(query):
+    // TODO Pass the query to the ranker and fetch results and populate below array
+    results = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland", "96%",  "About the movie")]
+    return results
+            
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage: {} config.toml".format(sys.argv[0]))
