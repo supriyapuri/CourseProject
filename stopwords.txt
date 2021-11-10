@@ -430,3 +430,6 @@ yours
 yourself
 yourselves
 movies
+movie
+cinema
+cinemas
