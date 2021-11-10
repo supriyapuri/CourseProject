@@ -3,8 +3,7 @@ import time
 import metapy
 import pytoml
 import math
-from page_scraper import title_content
-from page_scraper import url
+from page_scraper import title_content, url, synopsis_content
 from scipy.stats import rankdata
 
 # custom score class
@@ -83,7 +82,7 @@ def run(cfg):
             print("Query: ", query_num + 1, " ",  line)
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
-                print("{} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]])))
+                print("{} {} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]]),synopsis_content[(results[i])[0]]))
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
 
@@ -112,11 +111,19 @@ def write_lst(lst, file_):
             f.write('\n')
 
 
-def fetch_results(query):
-    // TODO Pass the query to the ranker and fetch results and populate below array
-    results = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland", "96%",  "About the movie")]
-    return results
-            
+
+def process_query(query):
+    top_k = 10  # maximum documents relevant to query
+    idx = metapy.index.make_inverted_index(cfg)
+    ranker = load_ranker(cfg)
+    results = ranker.score(idx, query, top_k)
+    query_result = []
+    for i in range(len(results)):
+        query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
+                                synopsis_content[(results[i])[0]]))
+    return query_result
+
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage: {} config.toml".format(sys.argv[0]))

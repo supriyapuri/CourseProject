@@ -10,6 +10,7 @@ pages = []
 
 #Iterate through each url
 title_content = []
+synopsis_content = []
 for i in url:
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -21,7 +22,7 @@ for i in url:
     title = soup.find('h1', attrs={'data-qa': 'score-panel-movie-title'})
     content = content + title.string.strip() + " "
     title_content.append(content)
-    print(title_content)
+    #print(title_content)
     
     #Where to watch
     affiliate = soup.find_all("a", "affiliate__link")
@@ -31,6 +32,7 @@ for i in url:
     #Movie Info
     synopsis = soup.find('div', attrs={'id': 'movieSynopsis'})
     content = content + synopsis.string.strip() + " "
+    synopsis_content.append(content)
 
     attributes = soup.find_all('div', attrs={'data-qa': 'movie-info-item-value'})
 
