@@ -115,6 +115,7 @@ def write_lst(lst, file_):
 def process_query(query_string):
     query = metapy.index.Document()
     query.content(query_string)
+
     top_k = 10  # maximum documents relevant to query
     cfg = 'config.toml'
     print('creating idx')
@@ -124,13 +125,18 @@ def process_query(query_string):
     ranker = load_ranker(cfg)
     print('loaded_ranker. now scoring...')
     print(ranker)
-    results = ranker.score(idx, query, top_k)
+    results = ranker.score(idx, query, top_k) #problem
     print('results received from  ranker.score.. now iterating')
     print(results)
     query_result = []
     for i in range(len(results)):
         query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
                                 synopsis_content[(results[i])[0]]))
+    # title = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland"), ("Judas and the Black Messiah", "https://www.rottentomatoes.com/m/judas_and_the_black_messiah")]
+    # query_result = []
+    # for i in range(2):
+    #     query_result.append(title[i])
+
     return query_result
 
 

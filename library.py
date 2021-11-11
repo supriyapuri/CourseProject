@@ -6,7 +6,7 @@ from search_rank import process_query
 app = Flask(__name__)
 
 #endpoint for search
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def search():
     if request.method == "POST":
         query = request.form['search_bar']

@@ -12,7 +12,7 @@ pages = []
 title_content = []
 synopsis_content = []
 counter = 0
-for i in url:
+for i in url: #remove the counter
     counter += 1
     if counter == 4:
         break
