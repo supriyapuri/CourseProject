@@ -6,16 +6,17 @@ from bs4 import BeautifulSoup
 with open("data/movie_urls.txt") as f:
     url = f.readlines()
 
+
 pages = []
 
 #Iterate through each url
 title_content = []
 synopsis_content = []
+tomatometer_rating = []
+
 counter = 0
 for i in url: #remove the counter
-    counter += 1
-    if counter == 4:
-        break
+
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
     
@@ -26,8 +27,13 @@ for i in url: #remove the counter
     title = soup.find('h1', attrs={'data-qa': 'score-panel-movie-title'})
     content = content + title.string.strip() + " "
     title_content.append(content)
-    #print(title_content)
-    
+
+
+    # tomatometer rating
+    scores = soup.find("score-board")
+    tomato_score = scores["tomatometerscore"] + "%"
+    tomatometer_rating.append(tomato_score)
+
     #Where to watch
     affiliate = soup.find_all("a", "affiliate__link")
     for data in affiliate:
@@ -37,6 +43,7 @@ for i in url: #remove the counter
     synopsis = soup.find('div', attrs={'id': 'movieSynopsis'})
     content = content + synopsis.string.strip() + " "
     synopsis_content.append(content)
+
 
     attributes = soup.find_all('div', attrs={'data-qa': 'movie-info-item-value'})
 
@@ -52,6 +59,7 @@ for i in url: #remove the counter
     for data in cast:
         content = content + data["title"] + " "
 
+    #reviews
     reviews = soup.find_all("critic-review-bubble")
     for rev in reviews:
         content = content + rev['reviewquote'] + " "

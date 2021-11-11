@@ -3,7 +3,7 @@ import time
 import metapy
 import pytoml
 import math
-from page_scraper import title_content, url, synopsis_content
+from page_scraper import title_content, url, synopsis_content, tomatometer_rating
 from scipy.stats import rankdata
 
 # custom score class
@@ -82,10 +82,10 @@ def run(cfg):
             print("Query: ", query_num + 1, " ",  line)
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
-                print("{} {} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]]),synopsis_content[(results[i])[0]]))
+                print("{} {} {} {}".format(title_content[(results[i])[0]],url[(results[i])[0]], synopsis_content[(results[i])[0]], tomatometer_rating[(results[i])[0]] ))
+
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
-
 
             for j in range(len(doc_num)):
                 line = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
@@ -116,6 +116,7 @@ def process_query(query_string):
     query = metapy.index.Document()
     query.content(query_string)
 
+
     top_k = 10  # maximum documents relevant to query
     cfg = 'config.toml'
     print('creating idx')
@@ -131,9 +132,8 @@ def process_query(query_string):
     query_result = []
     for i in range(len(results)):
         query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
-                                synopsis_content[(results[i])[0]]))
-    # title = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland"), ("Judas and the Black Messiah", "https://www.rottentomatoes.com/m/judas_and_the_black_messiah")]
-    # query_result = []
+                                synopsis_content[(results[i])[0]], tomatometer_rating[(results[i])[0]] ))
+    # title = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland"), ("Judas and the Black Messiah", "https://www.rottentomatoes.com/m/judas_and_the_black_m# query_result = []
     # for i in range(2):
     #     query_result.append(title[i])
 
@@ -145,4 +145,5 @@ if __name__ == '__main__':
         print("Usage: {} config.toml".format(sys.argv[0]))
         sys.exit(1)
     cfg = sys.argv[1]
+
     run(cfg)

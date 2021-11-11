@@ -17,4 +17,4 @@ def search():
 
 if __name__ == '__main__':
     # app.debug = True
-    app.run(debug=True, host='127.0.0.1', port=9002)
+    app.run(debug=True, host='127.0.0.1', port=9002, threaded=False)
