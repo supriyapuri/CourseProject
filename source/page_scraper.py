@@ -19,7 +19,7 @@ for i in url: #remove the counter
 
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
-    
+
     content = ""
 
     #Title
@@ -74,3 +74,9 @@ def write_lst(lst,file_):
 
 output = 'data/data.dat'
 write_lst(pages,output)
+
+write_lst(title_content,"data/titles.txt")
+write_lst(synopsis_content,"data/synopsis.txt")
+write_lst(tomatometer_rating,"data/ratings.txt")
+
+print("Scraping completed and files saved under 'data' folder")
