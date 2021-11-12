@@ -2,9 +2,7 @@ import sys
 import time
 import metapy
 import pytoml
-import math
-from page_scraper import title_content
-from page_scraper import url
+
 from scipy.stats import rankdata
 
 # custom score class
@@ -83,7 +81,7 @@ def run(cfg):
             print("Query: ", query_num + 1, " ",  line)
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
-                print("{} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]])))
+                # print("{} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]])))
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
 
@@ -113,10 +111,55 @@ def write_lst(lst, file_):
 
 
 def fetch_results(query):
-    // TODO Pass the query to the ranker and fetch results and populate below array
+    # TODO Pass the query to the ranker and fetch results and populate below array
     results = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland", "96%",  "About the movie")]
     return results
-            
+
+#Open txt file with urls, titles, synopsis, rating
+with open("data/movie_urls.txt") as f:
+    url = f.readlines()
+
+with open("data/titles.txt") as f:
+    title_content = f.readlines()
+
+with open("data/synopsis.txt") as f:
+    synopsis_content = f.readlines()
+
+with open("data/ratings.txt") as f:
+    ratings = f.readlines()
+
+def initialize():
+    cfg = 'config.toml'
+    print('creating idx')
+    idx = metapy.index.make_inverted_index(cfg)
+    print('now loading ranker')
+
+    return idx, load_ranker(cfg)
+
+idx, ranker = initialize()
+
+def process_query(query_string):
+
+    print("Processing : " + query_string)
+    query = metapy.index.Document()
+    query.content(query_string)
+
+    top_k = 10  # maximum documents relevant to query
+    print('Now scoring...')
+
+    results = ranker.score(idx, query, top_k) #problem
+    print('results received from  ranker.score.. now iterating')
+    print(results)
+    query_result = []
+    for i in range(len(results)):
+        query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
+                             synopsis_content[(results[i])[0]], ratings[(results[i])[0]] ))
+    # title = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland"), ("Judas and the Black Messiah", "https://www.rottentomatoes.com/m/judas_and_the_black_m# query_result = []
+    # for i in range(2):
+    #     query_result.append(title[i])
+
+    return query_result
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage: {} config.toml".format(sys.argv[0]))
