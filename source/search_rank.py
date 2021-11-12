@@ -34,6 +34,20 @@ from scipy.stats import rankdata
 #         return score
 
 
+# Open txt file with urls, titles, synopsis, rating
+with open("data/movie_urls.txt") as f:
+    url = f.readlines()
+
+with open("data/titles.txt") as f:
+    title_content = f.readlines()
+
+with open("data/synopsis.txt") as f:
+    synopsis_content = f.readlines()
+
+with open("data/ratings.txt") as f:
+    ratings = f.readlines()
+
+
 def load_ranker(cfg_file):
     """
     Use this function to return the Ranker object to evaluate,
@@ -44,12 +58,23 @@ def load_ranker(cfg_file):
     return metapy.index.OkapiBM25(1.5, 5)
     # return metapy.index.JelinekMercer(5.0)
 
+def initialize():
+    cfg = 'config.toml'
+    print('creating idx')
+    idx = metapy.index.make_inverted_index(cfg)
+    print('now loading ranker')
+
+    return idx, load_ranker(cfg)
+
+idx, ranker = initialize()
+top_k = 10  # maximum documents relevant to query
+query = metapy.index.Document()
+
+
+
 
 def run(cfg):
     print('Building or loading index...')
-    idx = metapy.index.make_inverted_index(cfg)
-    print(idx)
-    ranker = load_ranker(cfg)
     ev = metapy.index.IREval(cfg)
 
     with open(cfg, 'r') as fin:
@@ -61,11 +86,9 @@ def run(cfg):
         sys.exit(1)
 
     start_time = time.time()
-    top_k = 10  # maximum documents relevant to query
+
     query_path = query_cfg.get('query-path', 'queries.txt')
     query_start = query_cfg.get('query-id-start', 0)
-    query = metapy.index.Document()
-
     print('Running queries')
     rank_list = []
     avg_p_list = []
@@ -110,38 +133,11 @@ def write_lst(lst, file_):
             f.write('\n')
 
 
-# Open txt file with urls, titles, synopsis, rating
-with open("data/movie_urls.txt") as f:
-    url = f.readlines()
-
-with open("data/titles.txt") as f:
-    title_content = f.readlines()
-
-with open("data/synopsis.txt") as f:
-    synopsis_content = f.readlines()
-
-with open("data/ratings.txt") as f:
-    ratings = f.readlines()
-
-
-def initialize():
-    cfg = 'config.toml'
-    print('creating idx')
-    idx = metapy.index.make_inverted_index(cfg)
-    print('now loading ranker')
-
-    return idx, load_ranker(cfg)
-
-
-idx, ranker = initialize()
 
 
 def process_query(query_string):
     print("Processing : " + query_string)
-    query = metapy.index.Document()
     query.content(query_string)
-
-    top_k = 10  # maximum documents relevant to query
     print('Now scoring...')
 
     results = ranker.score(idx, query, top_k)  # problem
@@ -151,9 +147,7 @@ def process_query(query_string):
     for i in range(len(results)):
         query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
                              synopsis_content[(results[i])[0]], ratings[(results[i])[0]]))
-    # title = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland"), ("Judas and the Black Messiah", "https://www.rottentomatoes.com/m/judas_and_the_black_m# query_result = []
-    # for i in range(2):
-    #     query_result.append(title[i])
+
 
     return query_result
 
