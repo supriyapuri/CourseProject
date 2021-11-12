@@ -82,7 +82,7 @@ def run(cfg):
             print("Query: ", query_num + 1, " ",  line)
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
-                print("{} {} {} {}".format(title_content[(results[i])[0]],url[(results[i])[0]], synopsis_content[(results[i])[0]], tomatometer_rating[(results[i])[0]] ))
+                print("{} {} {} {}".format(title_content[(results[i])[0]],url[(results[i])[0]], synopsis_content[(results[i])[0]], tomatometer_rating[(results[i])[0]]))
 
                 doc_num.append((results[i])[0] + 1)
             rank = list(rankdata(rank_score))
@@ -131,12 +131,7 @@ def process_query(query_string):
     print(results)
     query_result = []
     for i in range(len(results)):
-        query_result.append((title_content[(results[i])[0]], url[(results[i])[0]],
-                                synopsis_content[(results[i])[0]], tomatometer_rating[(results[i])[0]] ))
-    # title = [("Nomadland", "https://www.rottentomatoes.com/m/nomadland"), ("Judas and the Black Messiah", "https://www.rottentomatoes.com/m/judas_and_the_black_m# query_result = []
-    # for i in range(2):
-    #     query_result.append(title[i])
-
+        query_result.append((title_content[(results[i])[0]],url[(results[i])[0]], synopsis_content[(results[i])[0]], tomatometer_rating[(results[i])[0]]))
     return query_result
 
 
