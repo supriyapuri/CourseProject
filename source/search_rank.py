@@ -5,44 +5,21 @@ import pytoml
 
 from scipy.stats import rankdata
 
-# custom score class
-
-# class InL2Ranker(metapy.index.RankingFunction):
-#     """
-#     Create a new ranking function in Python that can be used in MeTA.
-#     """
-#
-#     def __init__(self, some_param=1.0):
-#         self.param = some_param
-#
-#         # You *must* call the base class constructor here!
-#         super(InL2Ranker, self).__init__()
-#
-#     def score_one(self, sd):
-#         """
-#         You need to override this function to return a score for a single term.
-#         For fields available in the score_data sd object,
-#         @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
-#         """
-#
-#         tfn = sd.doc_term_count * math.log((1.0 + self.param * sd.avg_dl /
-#                                             sd.doc_size), 2)
-#
-#         score = sd.query_term_weight * (tfn / (tfn + self.param)) * math.log(
-#             ((sd.num_docs + 1.0) / (sd.corpus_term_count + 0.5)), 2)
-#         return score
-
-
 def load_ranker(cfg_file):
     """
     Use this function to return the Ranker object to evaluate,
     The parameter to this function, cfg_file, is the path to a
     configuration file used to load the index.
     """
-    #return InL2Ranker(some_param= 5.0)
-    return metapy.index.OkapiBM25(1.5, 5)
-    # return metapy.index.JelinekMercer(5.0)
-
+    
+    # DirichletPrior best mu parameter = 0.1
+    # return metapy.index.DirichletPrior(.1)
+    
+    # JelinekMercer best alpha parameter = 10
+    # return metapy.index.JelinekMercer(10)
+    
+    # OkapiBM25 best parameters = k1=.3, b=.2
+    return metapy.index.OkapiBM25(k1=.3, b = .2)
 
 def run(cfg):
     print('Building or loading index...')
