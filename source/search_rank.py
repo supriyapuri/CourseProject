@@ -69,6 +69,9 @@ def run(cfg):
     print('Running queries')
     rank_list = []
     avg_p_list = []
+    ndcg = 0.0
+    num_queries = 0
+
     with open(query_path) as query_file:
 
         for query_num, line in enumerate(query_file):
@@ -97,10 +100,20 @@ def run(cfg):
             # print("Query {} average precision: {}".format(query_num + 1, avg_p))
             avg_p_list.append(avg_p)
 
+            #ndcg
+            ndcg += ev.ndcg(results, query_start + query_num, top_k)
+            num_queries+=1
+
             write_lst(avg_p_list, 'data/avg_p.txt')
 
         print("Mean average precision: {}".format(ev.map()))
         print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
+
+    ndcg= ndcg / num_queries
+    print("NDCG@{}: {}".format(top_k, ndcg))
+
+    with open("data/ndcg.txt", "w") as text_file:
+        text_file.write("NDCG@{}: {}".format(top_k, ndcg))
 
 
 def write_lst(lst, file_):
