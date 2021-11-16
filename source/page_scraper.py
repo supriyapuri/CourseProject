@@ -75,8 +75,8 @@ def write_lst(lst,file_):
 output = 'data/data.dat'
 write_lst(pages,output)
 
-write_lst(title_content,"data/titles.txt")
-write_lst(synopsis_content,"data/synopsis.txt")
-write_lst(tomatometer_rating,"data/ratings.txt")
+write_lst(title_content, "data/titles.txt")
+write_lst(synopsis_content, "data/synopsis.txt")
+write_lst(tomatometer_rating, "data/ratings.txt")
 
 print("Scraping completed and files saved under 'data' folder")
