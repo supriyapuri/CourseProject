@@ -1,7 +1,7 @@
 ## Scraping and Ranking RottenTomatoes
 ### UIUC: Fall’21 CS 410 - Text Information Systems
 
-<b>Theme:</b> Intelligent Browsing<br/>
+<b>Theme:</b>  Intelligent Browsing<br/>
 <b>Team Members:</b> Jeremy Wisuthseriwong (jrw7), Munesh Bandaru (muneshb2), Supriya Puri (puri6) <br/>
 <b>Team Captain:</b> Munesh Bandaru (muneshb2) <br/>
 
