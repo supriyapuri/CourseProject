@@ -51,7 +51,8 @@ By using the web application, he can find the thriller movies available on Hulu 
 * [Metapy Search and IR evaluation Tutorial](https://github.com/meta-toolkit/metapy/blob/master/tutorials/2-search-and-ir-eval.ipynb) 
 * [Implementation of the ranker functions](https://github.com/meta-toolkit/meta/tree/master/include/meta/index/ranker)  
 * [How to scrape websites with Python and BeautifulSoup](https://www.freecodecamp.org/news/how-to-scrape-websites-with-python-and-beautifulsoup-5946935d93fe)
-* [The Flask Mega Tutorial by Miguel Grinberg](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)   
+* [The Flask Mega Tutorial by Miguel Grinberg](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)  
+* [Deploy Flask app on Heroku using GitHub](https://dev.to/lordofdexterity/deploying-flask-app-on-heroku-using-github-50nh)
 
 
 
