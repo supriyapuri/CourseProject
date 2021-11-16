@@ -7,6 +7,12 @@
 
 This project is for the University of Illinois Urbana-Champaign CS-410 Text Informations Systems.
 
+### Project Proposal
+[Final Project Proposal](https://github.com/muneshb/CourseProject/blob/main/Project%20Proposal.pdf)
+
+### Project Progress Report
+[Final Project Progress Report](https://github.com/muneshb/CourseProject/blob/main/Progress%20Report.pdf)
+
 ### Abstract
 Vertical search engines have become increasingly popular, now-a-days, as they sift through limited databases for information. A general web search cannot accommodate all of the users’ searches when it comes to specific topics without implicit assumptions. In particular, using a vertical search, a user can extensively use query based searches to get the desired results with high user ratings and reviews. One major example for searching a specific topic is “Rotten Tomatoes” - a review aggregation website for movies and television series. Its content is specialised for users browsing information on top rated movies and television entertainment -  genre, cast, network or the critic and user ratings. Results from services like Rotten Tomatoes allow a user to rank results by User Reviews, Critic Reviews, Genres, Audience Score. Being able to track user experience for various movies and tv series could lead to a larger audience and greater profits . 
 
