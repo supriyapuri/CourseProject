@@ -7,6 +7,9 @@
 
 This project is for the University of Illinois Urbana-Champaign CS-410 Text Informations Systems.
 
+### Web application url: 
+[Not-so-rotten-tomatoes](https://not-so-rotten-tomatoes.herokuapp.com/ )
+
 ### Project Proposal
 [Final Project Proposal](https://github.com/muneshb/CourseProject/blob/main/Project%20Proposal.pdf)
 
