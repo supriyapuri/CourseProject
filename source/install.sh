@@ -2,7 +2,6 @@ pip install Flask
 pip install metapy
 pip install pytoml
 pip install beautifulsoup4
-pip install metapy
 pip install numpy
 pip install scipy
 pip install selenium
