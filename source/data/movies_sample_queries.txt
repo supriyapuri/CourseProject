@@ -12,3 +12,6 @@ vudu comedy
 romantic movies on amazon
 documentary related to history
 social dramas
+horror movies on netflix
+science fiction movies
+crime films on hulu
