@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver 
 from selenium.webdriver.chrome.options import Options
 
+
 dir_url = 'https://www.rottentomatoes.com/top/bestofrt/?year=2021'
 base_url = 'https://www.rottentomatoes.com'
 
@@ -10,6 +11,7 @@ base_url = 'https://www.rottentomatoes.com'
 options = Options()
 options.headless = True
 driver = webdriver.Chrome('./chromedriver',options=options)
+
 
 
 #uses webdriver object to execute javascript code and get dynamically loaded webcontent

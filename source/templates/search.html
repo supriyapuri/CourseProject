@@ -7,34 +7,30 @@
         <link rel="stylesheet" href="static/index.css">
     </head>
     <body>
-        <style>
-            body {
-              background-image: url('img_girl.jpg');
-              background-repeat: no-repeat;
-              background-attachment: fixed;
-              background-size: cover;
-            }
-    </style>
-        <h1 style="color:red;"><center>Welcome to "Not so Rotten Tomatoes" </center></h1>
+
+        <h1 style="color:red;"><center>Welcome to "Not so Rotten Tomatoes" Search</center></h1>
+        <center><img src="static/logo.png"></center>
 
 
+        <br/>
+        <br/>
         <form class="example" method="post" action="" style="margin:auto;max-width:600px">
             <input type="text" placeholder="Search by Movie / Genre / Cast / Review Content" name="search_bar">
             <button type="submit" value="Search">Search</button>
         </form>
-
-        <table>
-        {% for item in data %}
-            <tr>
-                <td style="text-align: left;"> <a href={{item[1]}}>{{item[0]}}</a></td>
-                <td colspan="5"><p> - {{item[3]}}</p></td>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    <p>{{item[2]}}</p>
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
+        <div style="margin-left: 75px;margin-right: 75px;">
+            <table>
+            {% for item in data %}
+                <tr>
+                    <td style="text-align: left;font-weight: bold;"> <a href={{item[1]}}>{{item[0]}} - {{item[3]}}</a></td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <p>{{item[2]}}</p>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
     </body>
 </html>

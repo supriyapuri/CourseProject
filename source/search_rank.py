@@ -29,11 +29,11 @@ def load_ranker(cfg_file):
     # DirichletPrior best mu parameter = 0.1
     # return metapy.index.DirichletPrior(.1)
 
-    # JelinekMercer best alpha parameter = 10
-    # return metapy.index.JelinekMercer(10)
+    # JelinekMercer best alpha parameter = 20
+    # return metapy.index.JelinekMercer(20)
 
-    # OkapiBM25 best parameters = k1=.3, b=.2
-    return metapy.index.OkapiBM25(k1=.3, b=.2)
+    # OkapiBM25 best parameters = k1=1, b=.1
+    return metapy.index.OkapiBM25(k1=1, b=.1)
 
 
 def initialize():
