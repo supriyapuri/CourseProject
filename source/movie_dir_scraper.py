@@ -48,7 +48,7 @@ def write_lst(lst,file_):
             f.write(l)
             f.write('\n')
 
-movie_urls_file = 'movie_urls.txt'
+movie_urls_file = 'data/movie_urls.txt'
 write_lst(movie_links, movie_urls_file)
 
 

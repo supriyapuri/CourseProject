@@ -5,10 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="static/index.css">
+
     </head>
     <body>
         <h1 style="color:red;"><center>Welcome to "Not so Rotten Tomatoes" Search</center></h1>
         <center><img src="static/logo.png"></center>
+        <center><h3 style="color:red"><u><i>Top 100 Movies Of 2021</i></u></h3></center>
+
 
         <br/>
         <br/>
@@ -20,7 +23,7 @@
             <table>
             {% for item in data %}
                 <tr>
-                    <td style="text-align: left;font-weight: bold;"> <a href={{item[1]}}>{{item[0]}} - {{item[3]}}</a></td>
+                    <td style="text-align: left;font-weight: bold;"> <a href={{item[1]}}>{{item[0]}}</a> &nbsp;&nbsp;&nbsp;&nbsp;   <img src="https://img.icons8.com/color/48/000000/tomato.png"/>{{item[3]}}</td>
                 </tr>
                 <tr>
                     <td colspan="6">
