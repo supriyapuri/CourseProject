@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver 
 from selenium.webdriver.chrome.options import Options
-
+from webdriver_manager.chrome import ChromeDriverManager
 
 dir_url = 'https://www.rottentomatoes.com/top/bestofrt/?year=2021'
 base_url = 'https://www.rottentomatoes.com'
@@ -10,7 +10,8 @@ base_url = 'https://www.rottentomatoes.com'
 #create a webdriver object and set options for headless browsing
 options = Options()
 options.headless = True
-driver = webdriver.Chrome('./chromedriver',options=options)
+#driver = webdriver.Chrome('./chromedriver',options=options)
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
 
@@ -48,7 +49,7 @@ def write_lst(lst,file_):
             f.write(l)
             f.write('\n')
 
-movie_urls_file = 'movie_urls.txt'
+movie_urls_file = 'data/movie_urls.txt'
 write_lst(movie_links, movie_urls_file)
 
 
