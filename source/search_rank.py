@@ -130,7 +130,11 @@ def process_query(query_string):
     print("Processing : " + query_string)
     query.content(query_string)
     print('Now scoring...')
-
+    print('**********')
+    print('Query:', query)
+    print('Query content:', query.content)
+    print('**********')
+    
     results = ranker.score(idx, query, top_k)  # problem
     print('results received from  ranker.score.. now iterating')
     print(results)
