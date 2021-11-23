@@ -14,8 +14,7 @@ title_content = []
 synopsis_content = []
 tomatometer_rating = []
 
-counter = 0
-for i in url: #remove the counter
+for i in url:
 
     page = requests.get(i)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -44,15 +43,20 @@ for i in url: #remove the counter
     content = content + synopsis.string.strip() + " "
     synopsis_content.append(content)
 
+    #Movie Rating (if it exists on the page)
+    rating = soup.find(text="Rating:")
+    if rating:
+        rating = rating.findNext('div').contents[0]
+        rating = rating.string.strip()
+        rating = re.sub(r"\s+", " ", rating) #remove tabs and line breaks
+        content = content + rating + " "
 
-    attributes = soup.find_all('div', attrs={'data-qa': 'movie-info-item-value'})
-
-    rating = attributes[0].string.strip()
-    rating = re.sub(r"\s+", " ", rating) #remove tabs and line breaks
-    content = content + rating + " "
-    genre = attributes[1].string.strip()
-    genre = re.sub(r"\s+", " ", genre) #remove tabs and line breaks
-    content = content + genre + " "
+    #Movie Genre (if it exists on the page)
+    genre = soup.find('div', {'class' :'meta-value genre'})
+    if genre:
+        genre = genre.string.strip()
+        genre = re.sub(r"\s+", " ", genre) #remove tabs and line breaks
+        content = content + genre + " "
 
     #Cast
     cast = soup.find_all("span", "characters subtle smaller")
