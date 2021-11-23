@@ -47,7 +47,7 @@ def initialize():
 
 idx, ranker = initialize()
 top_k = 10  # maximum documents relevant to query
-query = metapy.index.Document()
+
 
 
 def run(cfg):
@@ -63,7 +63,7 @@ def run(cfg):
         sys.exit(1)
 
     start_time = time.time()
-
+    
     query_path = query_cfg.get('query-path', 'queries.txt')
     query_start = query_cfg.get('query-id-start', 0)
     print('Running queries')
@@ -73,11 +73,14 @@ def run(cfg):
     num_queries = 0
 
     with open(query_path) as query_file:
+       
 
         for query_num, line in enumerate(query_file):
+            query = metapy.index.Document()
             query.content(line.strip())
             rank_score = []
             doc_num = []
+            
 
             results = ranker.score(idx, query, top_k)
 
@@ -127,6 +130,7 @@ def write_lst(lst, file_):
 
 
 def process_query(query_string):
+    query = metapy.index.Document()
     print("Processing : " + query_string)
     query.content(query_string)
     print('Now scoring...')
