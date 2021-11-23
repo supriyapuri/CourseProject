@@ -82,7 +82,7 @@ def run(cfg):
             results = ranker.score(idx, query, top_k)
 
             # ranking from highest rank to lowest
-            print("Query: ", query_num + 1, " ", line)
+
             for i in range(len(results)):
                 rank_score.append((results[i])[1])
                 # print("{} {}".format((title_content[(results[i])[0]]),(url[(results[i])[0]])))
@@ -90,8 +90,8 @@ def run(cfg):
             rank = list(rankdata(rank_score))
 
             for j in range(len(doc_num)):
-                line = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
-                rank_list.append(line)
+                content = "{} {} {}".format(query_num + 1, doc_num[j], rank[j])
+                rank_list.append(content)
 
             write_lst(rank_list, 'data/rank_result.txt')
 
@@ -105,9 +105,12 @@ def run(cfg):
             num_queries+=1
 
             write_lst(avg_p_list, 'data/avg_p.txt')
+            print("Query: ", query_num + 1, " ", line)
+            print("Average Precision :{}".format(avg_p),'\n')
+
 
         print("Mean average precision: {}".format(ev.map()))
-        print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
+        # print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
 
     ndcg= ndcg / num_queries
     print("NDCG@{}: {}".format(top_k, ndcg))
