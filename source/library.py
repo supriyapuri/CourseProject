@@ -23,5 +23,5 @@ def search():
 
 
 if __name__ == '__main__':
-    # app.debug = True
+    #app.debug = False
     app.run(threaded=False)
