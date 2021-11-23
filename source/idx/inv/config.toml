@@ -1,0 +1,13 @@
+index = "idx"
+corpus = "line.toml"
+stop-words = "stopwords.txt"
+dataset = "data"
+query-judgements = "data/queryrelevance.txt"
+prefix = "."
+[query-runner]
+	query-id-start = 1
+	query-path = "data/movies_sample_queries.txt"
+[[analyzers]]
+	filter = "default-unigram-chain"
+	ngram = 1
+	method = "ngram-word"
